@@ -70,6 +70,43 @@ highlight helpHyperTextJump ctermfg=176
 highlight StatusLine ctermfg=235 ctermbg=247
 highlight StatusLineNC ctermfg=235 ctermbg=240
 
+" ===== NETRW COLORS MINIMALISTAS =====
+
+" Diretórios em azul pastel
+hi netrwDir       ctermfg=111 cterm=none
+
+" Arquivos executáveis em verde suave
+hi netrwExe       ctermfg=117 cterm=none
+
+" Links simbólicos em ciano claro
+hi netrwLink      ctermfg=159 cterm=none
+hi netrwSymLink   ctermfg=159 cterm=none
+
+" Arquivos comuns em cinza claro
+hi netrwPlain     ctermfg=253 cterm=none
+
+" Sufixos de classificação (/ @ *) em lilás suave
+hi netrwClassify  ctermfg=176 cterm=none
+
+" Comentários do netrw em cinza médio
+hi netrwComment   ctermfg=246 cterm=none
+
+" Arquivos marcados em vermelho pastel
+hi netrwMarkFile  ctermfg=203 cterm=bold
+
+" Barras da árvore (|, -) em cinza escuro
+hi netrwTreeBar   ctermfg=240 cterm=none
+
+" Listagem no tree mode em cinza médio
+hi netrwList      ctermfg=245 cterm=none
+
+" Cor da linha de separação
+hi VertSplit ctermfg=238 ctermbg=233 cterm=none
+
+" Substitui tracejado por espaço vazio
+set fillchars+=vert:.
+
+" Status
 set statusline=
 set statusline+=%#StatusLine#
 set statusline+=%f
