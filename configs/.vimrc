@@ -2,6 +2,8 @@
 set nocompatible
 set encoding=utf-8
 set fileencoding=utf-8
+set path+=**
+filetype plugin on
 
 " ========== INTERFACE ==========
 syntax enable
