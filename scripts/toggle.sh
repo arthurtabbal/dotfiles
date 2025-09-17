@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# printa possíveis erros
+trap 'echo "Erro na linha $LINENO: comando \"$BASH_COMMAND\" falhou com código $?"; exit 1' ERR
+
 # cria tmpdir efêmero
 TMPDIR="$(mktemp -d -t dotfiles-XXXXXXXX)"
 trap 'rm -rf "$TMPDIR"' EXIT
