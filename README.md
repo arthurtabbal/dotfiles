@@ -1,6 +1,6 @@
 # My Configuration Files 
 
-Jut a bunch of dotfiles
+Just a bunch of dotfiles
 
 # Usage
 
