@@ -23,5 +23,6 @@ TMUX_CONF="$CONF/.tmux.conf"
 TMUX_SRV="ephemeral-$$"
 
 # inicia tmux isolado com sua config
-tmux new -s arthurtabbal -L "$TMUX_SRV" -f "$TMUX_CONF"
+tmux -L "$TMUX_SRV" -f "$TMUX_CONF" new -s arthur
+
 
