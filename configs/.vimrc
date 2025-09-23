@@ -60,7 +60,7 @@ highlight CursorLineNr ctermfg=245 cterm=none
 highlight LineNr ctermfg=240
 highlight Pmenu ctermfg=253 ctermbg=235
 highlight PmenuSel ctermfg=233 ctermbg=111
-highlight Search ctermfg=233 ctermbg=245
+highlight Search ctermfg=NONE ctermbg=235
 highlight Visual ctermbg=235
 
 " ========== CORES PARA OS MAPPINGS ==========
@@ -129,8 +129,6 @@ set statusline+=%3p%%
 set nobackup
 set nowritebackup
 set noswapfile
-set undofile
-set undodir=~/.vim/undodir
 set autoread
 
 " ========== BUSCA ==========
@@ -138,7 +136,6 @@ set ignorecase
 set smartcase
 set hlsearch
 set incsearch
-set wrapscan
 
 " ========== IDENTAÇÃO ==========
 set autoindent
@@ -150,10 +147,8 @@ set shiftwidth=4
 set shiftround
 
 " ========== EDITING ==========
-set backspace=indent,eol,start
 set whichwrap+=<,>,h,l
 set hidden
-set ttimeoutlen=50
 
 " ========== PERFORMANCE ==========
 set lazyredraw
@@ -172,33 +167,19 @@ nnoremap <silent> <C-h> :bprevious<CR>
 nnoremap <silent> <C-l> :bnext<CR>
 nnoremap <silent> <leader>bd :bd<CR>
 
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-H> <C-W><C-H>
-nnoremap <C-L> <C-W><C-L>
-
-nnoremap <silent> <leader>/ :nohlsearch<CR>
-
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>x :x<CR>
 
 " --- Navegação rápida no insert ---
-inoremap <C-b> <Left>    " cursor 1 caractere para trás
-inoremap <C-f> <Right>   " cursor 1 caractere para frente
-inoremap <C-a> <Home>    " início da linha
-inoremap <C-e> <End>     " fim da linha
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
 
 " --- Edição essencial no insert ---
-inoremap <C-h> <BS>      " apaga caractere anterior
-inoremap <C-d> <Del>     " apaga caractere sob o cursor
-inoremap <C-w> <C-[>diw<Esc>a  " apaga palavra anterior
-inoremap <C-u> <C-[>d0a       " apaga até início da linha
-
-" --- Inserir registro de forma rápida ---
-inoremap <C-r> <C-r>     " manter para colar registers
-
-" --- Ctrl-o já nativo: executar comando normal temporário
+inoremap <C-h> <BS>
+inoremap <C-d> <Del>
 
 " ========== FUNÇÃO PARA NETRW INTELIGENTE ==========
 function! SmartNetrw()
