@@ -26,7 +26,7 @@ include /etc/sway/config-vars.d/*
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/Fuwafuwa_nanbatto_san_by_amaral-dark.png fill
+output * bg /usr/share/backgrounds/lotro.jpg fill
 #
 # Example configuration:
 #
