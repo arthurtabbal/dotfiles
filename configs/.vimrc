@@ -148,6 +148,7 @@ set shiftround
 
 " ========== EDITING ==========
 set whichwrap+=<,>,h,l
+set nowrap
 set hidden
 
 " ========== PERFORMANCE ==========
