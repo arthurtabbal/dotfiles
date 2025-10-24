@@ -21,32 +21,28 @@ WIN1_NAME="dashboard${SCHEMA:+ {$SCHEMA}}"
 TMUX_CONF="$CONF/.tmux.conf"
 TMUX_SRV="ephemeral-$$"
 
-# cria sessão e primeira janela
-tmux -L "$TMUX_SRV" -f "$TMUX_CONF" new-session -d -s NoHarm -n "$WIN1_NAME"
+# cria sessão efêmera com todas as janelas de uma vez
+tmux -L "$TMUX_SRV" -f "$TMUX_CONF" new-session -d -s NoHarm -n "$WIN1_NAME" \
+  \; new-window -n getname \
+  \; new-window -n anony
 
-# curto delay para evitar erro de criação de janelas
-sleep 0.1
-
-# cria as outras janelas
-tmux new-window -t NoHarm -n getname
-tmux new-window -t NoHarm -n anony
-
-# --- DASHBOARD: 2 panes verticais ---
-tmux send-keys -t NoHarm:1.0 'command -v btop &>/dev/null && btop || command -v htop &>/dev/null && htop || top' C-m
-tmux split-window -h -t NoHarm:1
-tmux send-keys -t NoHarm:1.1 'echo "Pane direito do dashboard"' C-m
-tmux select-layout -t NoHarm:1 tiled
+# --- DASHBOARD: seleciona a janela pelo nome e cria panes ---
+tmux -L "$TMUX_SRV" select-window -t "NoHarm:$WIN1_NAME"
+tmux -L "$TMUX_SRV" send-keys -t "NoHarm:$WIN1_NAME" 'command -v btop &>/dev/null && btop || command -v htop &>/dev/null && top' C-m
+tmux -L "$TMUX_SRV" split-window -h -t "NoHarm:$WIN1_NAME"
+tmux -L "$TMUX_SRV" send-keys -t "NoHarm:$WIN1_NAME".1 'echo "Pane direito do dashboard"' C-m
+tmux -L "$TMUX_SRV" select-layout -t "NoHarm:$WIN1_NAME" tiled
 
 # --- GETNAME: roda docker logs se container existir ---
-tmux send-keys -t NoHarm:2 "\
+tmux -L "$TMUX_SRV" send-keys -t "NoHarm:getname" "\
 container=\$(docker ps --filter 'name=getname' --format '{{.Names}}' | head -n1); \
 if [ -n \"\$container\" ]; then docker logs --tail 5 -f \$container; else echo 'Nenhum container getname encontrado'; fi" C-m
 
 # --- ANONY: roda docker logs se container existir ---
-tmux send-keys -t NoHarm:3 "\
+tmux -L "$TMUX_SRV" send-keys -t "NoHarm:anony" "\
 container=\$(docker ps --filter 'name=anony' --format '{{.Names}}' | head -n1); \
 if [ -n \"\$container\" ]; then docker logs --tail 5 -f \$container; else echo 'Nenhum container anony encontrado'; fi" C-m
 
 # anexa à sessão
-tmux attach -t NoHarm
+tmux -L "$TMUX_SRV" attach -t NoHarm
 
