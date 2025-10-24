@@ -16,7 +16,7 @@ export VIMINIT="let \$MYVIMRC='$CONF/.vimrc' | source \$MYVIMRC"
 
 # --- TMUX ---
 SCHEMA="${1:-}"  # argumento opcional
-WIN1_NAME="dashboard${SCHEMA:+ {$SCHEMA}}"
+WIN1_NAME="dashboard${SCHEMA}"
 
 TMUX_CONF="$CONF/.tmux.conf"
 TMUX_SRV="ephemeral-$$"
