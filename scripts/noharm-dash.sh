@@ -28,18 +28,19 @@ tmux -L "$TMUX_SRV" -f "$TMUX_CONF" new-session -d -s NoHarm -n "$WIN1_NAME" \
 
 # --- DASHBOARD: seleciona a janela pelo nome e cria panes ---
 tmux -L "$TMUX_SRV" select-window -t "NoHarm:$WIN1_NAME"
-tmux -L "$TMUX_SRV" send-keys -t "NoHarm:$WIN1_NAME" 'command -v btop &>/dev/null && btop || command -v htop &>/dev/null && top' C-m
 tmux -L "$TMUX_SRV" split-window -h -t "NoHarm:$WIN1_NAME"
-tmux -L "$TMUX_SRV" send-keys -t "NoHarm:$WIN1_NAME".1 'echo "Pane direito do dashboard"' C-m
-tmux -L "$TMUX_SRV" select-layout -t "NoHarm:$WIN1_NAME" tiled
+tmux -L "$TMUX_SRV" send-keys -t "NoHarm:$WIN1_NAME".2 'command -v btop &>/dev/null && btop || command -v htop &>/dev/null && top' C-m
+tmux -L "$TMUX_SRV" select-layout -t "NoHarm:$WIN1_NAME"
 
 # --- GETNAME: roda docker logs se container existir ---
-tmux -L "$TMUX_SRV" send-keys -t "NoHarm:getname" "\
+tmux -L "$TMUX_SRV" split-window -h -t "NoHarm:getname"
+tmux -L "$TMUX_SRV" send-keys -t "NoHarm:getname".2 "\
 container=\$(docker ps --filter 'name=getname' --format '{{.Names}}' | head -n1); \
 if [ -n \"\$container\" ]; then docker logs --tail 5 -f \$container; else echo 'Nenhum container getname encontrado'; fi" C-m
 
 # --- ANONY: roda docker logs se container existir ---
-tmux -L "$TMUX_SRV" send-keys -t "NoHarm:anony" "\
+tmux -L "$TMUX_SRV" split-window -h -t "NoHarm:anony"
+tmux -L "$TMUX_SRV" send-keys -t "NoHarm:anony".2 "\
 container=\$(docker ps --filter 'name=anony' --format '{{.Names}}' | head -n1); \
 if [ -n \"\$container\" ]; then docker logs --tail 5 -f \$container; else echo 'Nenhum container anony encontrado'; fi" C-m
 
