@@ -26,6 +26,7 @@ trap 'echo "Erro na linha $LINENO: comando \"$BASH_COMMAND\" falhou com código 
 # -----------------------------
 TMPDIR="$(mktemp -d -t dotfiles-XXXXXXXX)"
 git clone --depth=1 https://github.com/arthurtabbal/dotfiles.git "$TMPDIR/repo"
+CONF="$TMPDIR/repo/configs"
 TMUX_CONF="$CONF/.tmux.conf"
 TMUX_SRV="ephemeral-$$"
 export VIMINIT="let \$MYVIMRC='$CONF/.vimrc' | source \$MYVIMRC"
