@@ -24,12 +24,16 @@ trap 'echo "Erro na linha $LINENO: comando \"$BASH_COMMAND\" falhou com código 
 # -----------------------------
 # Preparar tmpdir e dotfiles
 # -----------------------------
+
 TMPDIR="$(mktemp -d -t dotfiles-XXXXXXXX)"
-git clone --depth=1 https://github.com/arthurtabbal/dotfiles.git "$TMPDIR/repo"
 CONF="$TMPDIR/repo/configs"
+
+# variável de configuração do vim
+export VIMINIT="let \$MYVIMRC='$CONF/.vimrc' | source \$MYVIMRC"
+
+git clone --depth=1 https://github.com/arthurtabbal/dotfiles.git "$TMPDIR/repo"
 TMUX_CONF="$CONF/.tmux.conf"
 TMUX_SRV="ephemeral-$$"
-export VIMINIT="let \$MYVIMRC='$CONF/.vimrc' | source \$MYVIMRC"
 
 # -----------------------------
 # Limpa servidores efêmeros antigos
@@ -43,6 +47,4 @@ ps -eo pid,command \
 # -----------------------------
 # Inicia tmux efêmero
 # -----------------------------
-# - inicia shell no tmux
-# - define alias para vim já carregar o .vimrc efêmero
 tmux -L "$TMUX_SRV" -f "$TMUX_CONF" new-session -s arthur
