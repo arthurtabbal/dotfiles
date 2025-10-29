@@ -1,8 +1,10 @@
-" ========== CONFIGURAÇÕES BÁSICAS ==========
+" ======== CONFIGURAÇÕES BÁSICAS ==========
 set nocompatible
 set encoding=utf-8
 set fileencoding=utf-8
+set mouse=a
 set path+=**
+set complete=.,w,b,u,t,i,kspell
 filetype plugin on
 
 " ========== INTERFACE ==========
@@ -71,6 +73,18 @@ highlight helpHyperTextJump ctermfg=176
 " ========== STATUS LINE INVERTIDA ==========
 highlight StatusLine ctermfg=235 ctermbg=247
 highlight StatusLineNC ctermfg=235 ctermbg=240
+
+"+++++++ Configurações básicas de diff
+set diffopt+=vertical        " Abre diffs em vertical por padrão
+set diffopt+=iwhite          " Ignora mudanças de whitespace
+set diffopt+=hiddenoff       " Foca nas mudanças reais
+set diffopt+=foldcolumn:1    " Adiciona uma coluna para folds
+
+"+++++++ Cores para modo diff (terminal 256 cores)
+highlight DiffAdd    ctermfg=Black ctermbg=Green guifg=#000000 guibg=#A6E3A1
+highlight DiffChange ctermfg=Black ctermbg=Yellow guifg=#000000 guibg=#F9E2AF
+highlight DiffDelete ctermfg=White ctermbg=Red    guifg=#FFFFFF guibg=#F38BA8
+highlight DiffText   ctermfg=Black ctermbg=White  guifg=#000000 guibg=#FFFFFF
 
 " ===== NETRW COLORS MINIMALISTAS =====
 
@@ -157,12 +171,16 @@ set ttyfast
 set synmaxcol=200
 
 " ========== NETRW ==========
-let g:netrw_banner = 0
+let g:netrw_banner = 1
 let g:netrw_liststyle = 3
-let g:netrw_winsize = 25
+let g:netrw_winsize = 75
+set splitright
+let g:netrw_altv = 1
+let g:netrw_browse_split = 4
+let g:netrw_keepdir=0
 
 " ========== MAPPINGS ==========
-let mapleader = ","
+let mapleader = " "
 
 nnoremap <silent> <C-h> :bprevious<CR>
 nnoremap <silent> <C-l> :bnext<CR>
@@ -171,6 +189,10 @@ nnoremap <silent> <leader>bd :bd<CR>
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>x :x<CR>
+
+if executable('wl-copy')
+  vnoremap <leader>y :w !wl-copy<CR><CR>
+endif
 
 " --- Navegação rápida no insert ---
 inoremap <C-b> <Left>
@@ -182,19 +204,8 @@ inoremap <C-e> <End>
 inoremap <C-h> <BS>
 inoremap <C-d> <Del>
 
-" ========== FUNÇÃO PARA NETRW INTELIGENTE ==========
-function! SmartNetrw()
-  " Se já existe um buffer do netrw aberto, vai para ele
-  let netrw_buf = bufnr('^' . getcwd() . '$')
-  if netrw_buf != -1
-    execute 'buffer ' . netrw_buf
-  else
-    Lexplore
-  endif
-endfunction
-
-" Mapeamento corrigido
-nnoremap <silent> <leader>e :call SmartNetrw()<CR>
+" --- COMMANDS ----
+command! W execute 'w !sudo tee % > /dev/null' | edit!
 
 " ========== AUTOCOMMANDS ==========
 augroup vimrc
@@ -207,3 +218,7 @@ augroup vimrc
   autocmd FileType json setlocal shiftwidth=2 tabstop=2
   autocmd FileType yaml setlocal shiftwidth=2 tabstop=2
 augroup END
+
+command! DiffOrig let g:diffline = line('.') | vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+nnoremap <leader>do :DiffOrig<cr>
+nnoremap <leader>dc :q<cr>:diffoff<cr>:exe "norm! ".g:diffline."G"<cr>
