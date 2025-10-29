@@ -325,3 +325,4 @@ input type:touchpad {
 }
 
 exec clipman store --no-persist &
+
