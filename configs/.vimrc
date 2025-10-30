@@ -7,6 +7,17 @@ set path+=**
 set complete=.,w,b,u,t,i,kspell
 filetype plugin on
 
+" Detecta se está rodando dentro do tmux
+if exists('$TMUX')
+  " Se o Vim tiver suporte ao modo SGR (mais moderno), usa ele
+  if has('mouse_sgr')
+    set ttymouse=sgr
+  else
+    set ttymouse=xterm2
+  endif
+endif
+
+
 " ========== INTERFACE ==========
 syntax enable
 set number
