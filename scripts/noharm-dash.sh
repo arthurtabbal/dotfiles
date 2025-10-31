@@ -1,31 +1,53 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# -----------------------------
+# Função de limpeza
+# -----------------------------
+cleanup() {
+    # mata servidor tmux efêmero se ainda existir
+    if tmux -L "$TMUX_SRV" has-session 2>/dev/null; then
+        tmux -L "$TMUX_SRV" kill-server >/dev/null 2>&1 || true
+    fi
+
+    # remove sockets órfãos
+    rm -rf /tmp/tmux-$(id -u)/ephemeral-* >/dev/null 2>&1 || true
+
+    # remove tmpdir efêmero
+    rm -rf "$TMPDIR"
+}
+
+# garante execução da limpeza ao sair do script, erro ou Ctrl+C
+trap cleanup EXIT
 trap 'echo "Erro na linha $LINENO: comando \"$BASH_COMMAND\" falhou com código $?"; exit 1' ERR
 
-# cria tmpdir efêmero
-TMPDIR="$(mktemp -d -t dotfiles-XXXXXXXX)"
-trap 'rm -rf "$TMPDIR"' EXIT
+# -----------------------------
+# Preparar tmpdir e dotfiles
+# -----------------------------
 
-# baixa repo (shallow)
-git clone --depth=1 https://github.com/arthurtabbal/dotfiles.git "$TMPDIR/repo"
+TMPDIR="$(mktemp -d -t dotfiles-XXXXXXXX)"
 CONF="$TMPDIR/repo/configs"
 
-# VIM efêmero
+# variável de configuração do vim
 export VIMINIT="let \$MYVIMRC='$CONF/.vimrc' | source \$MYVIMRC"
 
-# --- TMUX ---
-SCHEMA="${1:-}"  # argumento opcional
-WIN1_NAME="dashboard${SCHEMA}"
-
+git clone --depth=1 https://github.com/arthurtabbal/dotfiles.git "$TMPDIR/repo"
 TMUX_CONF="$CONF/.tmux.conf"
 TMUX_SRV="ephemeral-$$"
 
-# cria sessão efêmera com todas as janelas de uma vez
-tmux -L "$TMUX_SRV" -f "$TMUX_CONF" new-session -d -s NoHarm -n "$WIN1_NAME" \
-  \; new-window -n getname \
-  \; new-window -n anony
+# -----------------------------
+# Limpa servidores efêmeros antigos
+# -----------------------------
+ps -eo pid,command \
+    | grep "tmux -L ephemeral" \
+    | grep -v grep \
+    | awk '{print $1}' \
+    | xargs -r kill >/dev/null 2>&1 || true
 
+# -----------------------------
+# Inicia tmux efêmero
+# -----------------------------
+#
 # --- DASHBOARD: seleciona a janela pelo nome e cria panes ---
 tmux -L "$TMUX_SRV" select-window -t "NoHarm:$WIN1_NAME"
 tmux -L "$TMUX_SRV" split-window -h -t "NoHarm:$WIN1_NAME"
