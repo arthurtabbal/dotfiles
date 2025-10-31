@@ -47,12 +47,17 @@ ps -eo pid,command \
 # -----------------------------
 # Inicia tmux efêmero
 # -----------------------------
-#
-# --- DASHBOARD: seleciona a janela pelo nome e cria panes ---
-tmux -L "$TMUX_SRV" select-window -t "NoHarm:dash"
-tmux -L "$TMUX_SRV" split-window -h -t "NoHarm:dash"
-tmux -L "$TMUX_SRV" send-keys -t "NoHarm:dash".2 'command -v btop &>/dev/null && btop || command -v htop &>/dev/null && top' C-m
-tmux -L "$TMUX_SRV" select-layout -t "NoHarm:dash"
+
+# cria sessão efêmera com todas as janelas de uma vez
+tmux -L "$TMUX_SRV" -f "$TMUX_CONF" new-session -d -s NoHarm -n "painel" \
+  \; new-window -n getname \
+  \; new-window -n anony
+
+# --- painelBOARD: seleciona a janela pelo nome e cria panes ---
+tmux -L "$TMUX_SRV" select-window -t "NoHarm:painel"
+tmux -L "$TMUX_SRV" split-window -h -t "NoHarm:painel"
+tmux -L "$TMUX_SRV" send-keys -t "NoHarm:painel".2 'command -v btop &>/dev/null && btop || command -v htop &>/dev/null && top' C-m
+tmux -L "$TMUX_SRV" select-layout -t "NoHarm:painel"
 
 # --- GETNAME: roda docker logs se container existir ---
 tmux -L "$TMUX_SRV" split-window -h -t "NoHarm:getname"
