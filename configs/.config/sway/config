@@ -281,6 +281,11 @@ bindsym XF86AudioPrev exec playerctl previous
 # Print com seleção
 bindsym Print exec grim -g "$(slurp)" - | wl-copy
 
+# Testes dos gestos do touchpad
+bindsym Shift+Alt+Tab workspace prev_on_output
+bindsym Alt+Tab workspace next_on_output
+bindsym $mod+d workspace back_and_forth
+
 # Remove título
 default_border pixel 2
 default_floating_border pixel 3
@@ -324,5 +329,20 @@ input type:touchpad {
 	natural_scroll enabled
 }
 
+# YICHIP Wireless Keyboard touchpad (dois product IDs possíveis)
+input "12625:12288:YICHIP_Wireless_Device_Mouse" {
+	natural_scroll enabled
+	scroll_factor 0.7
+	pointer_accel 0.7
+    dwt enable
+}
+
+# USB MOUSE
+input "12625:12320:YICHIP_Wireless_Device_Mouse" {
+	scroll_factor 0.4
+	pointer_accel 0.4
+}
+
 exec clipman store --no-persist &
+
 
