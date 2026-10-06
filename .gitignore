@@ -1,0 +1,33 @@
+# Local assistant configuration
+.claude/
+.codex/
+CLAUDE.md
+
+# Environment files and credentials
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+credentials
+credentials.json
+secrets.json
+
+# SSH, cloud and cluster credentials
+.ssh/
+.aws/
+.azure/
+.config/gcloud/
+.kube/
+kubeconfig
+*.tfstate
+*.tfstate.*
+
+# Editor, OS and temporary files
+*~
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

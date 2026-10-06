@@ -4,6 +4,6 @@ Just a bunch of dotfiles
 
 # Usage
 
-```bash <(curl -fsSL https://raw.githubusercontent.com/arthurtabbal/dotfiles/main/scripts/toggle.sh)```
-
-
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/arthurtabbal/dotfiles/main/scripts/toggle.sh)
+```
