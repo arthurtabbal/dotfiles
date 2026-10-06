@@ -184,7 +184,7 @@ bindsym $mod+Escape focus next
 # Displays
 output eDP-1 pos 1920 1080 res 1920x1080 scale 1
 output HDMI-A-1 pos 1920 0 res 1920x1080 scale 1
-output 'Anderson Multimedia Communications (HK) Limited AML TV 0x00000001' pos 2560 360 res 1280x720 scale 1
+output 'Anderson Multimedia Communications (HK) Limited AML TV 0x00000001' pos 1920 360 res 1280x720 scale 1
 
 # Bloquear a tela
 bindsym $mod+Alt+l exec swaylock -c 000000
@@ -198,7 +198,7 @@ bindsym $mod+Alt+l exec swaylock -c 000000
     bindsym $mod+v splitv
 
     # Switch the current container between different layout styles
-    bindsym $mod+s layout stacking
+    bindsym $mod+s layout toggle tabbed split
     bindsym $mod+w layout tabbed
     bindsym $mod+e layout toggle split
 
@@ -258,10 +258,10 @@ exec_always --no-startup-id libinput-gestures-setup start
 bindcode 225 exec brightnessctl set +5%
 
 # Diminuir brilho
-bindcode 224 exec brightnesssctl set 5%-
+bindcode 224 exec brightnessctl set 5%-
 
-# Aumentar volume
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +2%
+# Aumentar volume (limite 200%)
+bindsym XF86AudioRaiseVolume exec wpctl set-volume --limit 2.0 @DEFAULT_AUDIO_SINK@ 2%+
 
 # Diminuir volume
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -2%
@@ -282,9 +282,10 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym Print exec grim -g "$(slurp)" - | wl-copy
 
 # Testes dos gestos do touchpad
-bindsym Shift+Alt+Tab workspace prev_on_output
-bindsym Alt+Tab workspace next_on_output
+bindsym Shift+Alt+Tab workspace next_on_output
+bindsym Alt+Tab workspace prev_on_output
 bindsym $mod+d workspace back_and_forth
+
 
 # Remove título
 default_border pixel 2
@@ -296,11 +297,22 @@ client.focused_inactive #052628  #052628  #aaaaaa  #052628  #052628
 client.unfocused        #444444  #111111  #888888  #111111  #111111
 client.urgent           #7c2a2a  #7c2a2a  #ffffff  #7c2a2a  #7c2a2a
 
+# Janelas utilitárias sempre flutuantes
+for_window [app_id="^(nm-connection-editor|blueman-manager|pavucontrol)$"] floating enable
+
+# Picture-in-picture do Chrome (vídeo comum e janelinha do Meet ao trocar de aba)
+for_window [app_id="^google-chrome$" title="^Picture.in.[Pp]icture$"] floating enable, sticky enable
+for_window [app_id="^google-chrome$" title="^Meet - .*(?<! - Google Chrome)$"] floating enable, sticky enable
+
 # Status Bar:
 
 bar {
 	swaybar_command waybar
 }
+
+# Applets gráficos de rede e Bluetooth na bandeja da Waybar
+exec nm-applet
+exec blueman-applet
 
 # Read `man 5 sway-bar` for more information about this section.
 #bar {
@@ -333,16 +345,9 @@ input type:touchpad {
 input "12625:12288:YICHIP_Wireless_Device_Mouse" {
 	natural_scroll enabled
 	scroll_factor 0.7
-	pointer_accel 0.7
+	pointer_accel 1.0
+    accel_profile adaptive
     dwt enable
 }
 
-# USB MOUSE
-input "12625:12320:YICHIP_Wireless_Device_Mouse" {
-	scroll_factor 0.4
-	pointer_accel 0.4
-}
-
 exec clipman store --no-persist &
-
-

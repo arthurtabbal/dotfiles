@@ -79,7 +79,7 @@ button:hover {
 #disk,
 #temperature,
 #backlight,
-#network,
+#custom-network,
 #pulseaudio,
 #wireplumber,
 #custom-media,
@@ -159,11 +159,11 @@ label:focus {
     background-color: #003131;
 }
 
-#network {
+#custom-network {
     background-color: #092079;
 }
 
-#network.disconnected {
+#custom-network.disconnected {
     background-color: #950c0c;
 }
 
@@ -209,7 +209,8 @@ label:focus {
 }
 
 #tray {
-    background-color: #2980b9;
+    background-color: #25313c;
+    padding: 0 8px;
 }
 
 #tray > .passive {

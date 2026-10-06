@@ -31,3 +31,6 @@ kubeconfig
 *.swo
 .DS_Store
 Thumbs.db
+
+# Generated local snapshots
+configs/.config/waybar/config.json

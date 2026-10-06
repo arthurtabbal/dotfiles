@@ -8,7 +8,7 @@
     "output": "eDP-1",
     "modules-left": ["sway/workspaces", "sway/mode", "sway/scratchpad"],
     "modules-center": ["sway/window"],
-    "modules-right": ["pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "keyboard-state", "sway/language", "battery", "battery#bat2", "clock", "tray"],
+    "modules-right": ["pulseaudio", "custom/network", "cpu", "memory", "temperature", "backlight", "keyboard-state", "sway/language", "tray", "battery", "battery#bat2", "clock"],
     // Modules configuration
      "sway/workspaces": {
          "disable-scroll": true,
@@ -92,8 +92,8 @@
         }
     },
     "tray": {
-        // "icon-size": 21,
-        "spacing": 10
+        "icon-size": 14,
+        "spacing": 8
     },
     "clock": {
         // "timezone": "America/New_York",
@@ -137,14 +137,12 @@
     "battery#bat2": {
         "bat": "BAT2"
     },
-    "network": {
-        // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
-        "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    "custom/network": {
+        "exec": "$HOME/.config/waybar/network.sh",
+        "return-type": "json",
+        "interval": 10,
+        "signal": 8,
+        "on-click": "$HOME/.config/waybar/network.sh toggle"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
@@ -178,4 +176,3 @@
         // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
     }
 }
-
