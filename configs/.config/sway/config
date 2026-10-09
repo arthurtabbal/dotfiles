@@ -302,7 +302,7 @@ for_window [app_id="^(nm-connection-editor|blueman-manager|pavucontrol)$"] float
 
 # Picture-in-picture do Chrome (vídeo comum e janelinha do Meet ao trocar de aba)
 for_window [app_id="^google-chrome$" title="^Picture.in.[Pp]icture$"] floating enable, sticky enable
-for_window [app_id="^google-chrome$" title="^Meet - .*(?<! - Google Chrome)$"] floating enable, sticky enable
+for_window [app_id="^google-chrome$" title="^Meet(?: - |: ).*(?<! - Google Chrome)$"] floating enable, sticky enable
 
 # Status Bar:
 
