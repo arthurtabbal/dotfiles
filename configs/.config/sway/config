@@ -15,8 +15,8 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term foot
-# Use a login shell so ~/.profile adds ~/.local/bin to PATH. bemenu-run lists
-# executables from PATH (it does not read .desktop files).
+# Usa um login shell para o ~/.profile adicionar ~/.local/bin ao PATH. O bemenu-run
+# lista os executáveis do PATH (não lê arquivos .desktop).
 set $menu sh -lc 'exec bemenu-run'
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
