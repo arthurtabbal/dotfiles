@@ -15,7 +15,9 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term foot
-set $menu bemenu-run
+# Use a login shell so ~/.profile adds ~/.local/bin to PATH. bemenu-run lists
+# executables from PATH (it does not read .desktop files).
+set $menu sh -lc 'exec bemenu-run'
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
@@ -299,6 +301,10 @@ client.urgent           #7c2a2a  #7c2a2a  #ffffff  #7c2a2a  #7c2a2a
 
 # Janelas utilitárias sempre flutuantes
 for_window [app_id="^(nm-connection-editor|blueman-manager|pavucontrol)$"] floating enable
+
+# Pop-ups e janelas de plugins do Waveform (mantém a janela principal em tiling)
+for_window [class="^Waveform$" title="^(?!Waveform PRO$).+"] floating enable
+for_window [app_id="^zenity$" title="^Load from file$"] floating enable, resize set height 500 px
 
 # Picture-in-picture do Chrome (vídeo comum e janelinha do Meet ao trocar de aba)
 for_window [app_id="^google-chrome$" title="^Picture.in.[Pp]icture$"] floating enable, sticky enable
